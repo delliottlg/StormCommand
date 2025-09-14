@@ -196,6 +196,10 @@ def strategy():
 def collab():
     return render_template('collab.html')
 
+@app.route('/prompts')
+def prompts():
+    return render_template('prompts.html')
+
 @app.route('/reports')
 def reports():
     conn = sqlite3.connect(DATABASE)

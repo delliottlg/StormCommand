@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}Prompts - StormCommand{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-10">
+                <h1 class="title is-2">
+                    <i class="fas fa-terminal" style="color: var(--gs-cyan);"></i> System Prompts
+                </h1>
+                <p class="subtitle">Core prompts for Claude instances working on Glass Strategies</p>
+
+                <div class="box mt-5">
+                    <h3 class="title is-4">
+                        <i class="fas fa-rocket" style="color: var(--gs-cyan);"></i> Main Lead Generation System Prompt
+                    </h3>
+                    <div class="content">
+                        <pre style="background: var(--dark-bg); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--gs-teal); color: #e0e0e0; white-space: pre-wrap; font-family: 'Courier New', monospace; line-height: 1.6;">PROJECT: Glass Strategies Lead Generation System
+
+CONTEXT:
+Glass Strategies manufactures Safety Plus II™ - a Miami-Dade certified laminated hurricane glass that's mandatory for new construction in hurricane zones. Lance (the client) needs qualified leads for this product. His product is superior but he needs to reach contractors, architects, and developers who are:
+1. Building in hurricane zones
+2. Retrofitting existing buildings for new codes
+3. Dealing with insurance requirements for impact glass
+
+THE OPPORTUNITY:
+- New building codes REQUIRE certified hurricane glass
+- Insurance companies mandate it for coverage
+- Non-compliance = project delays, liability, inspection failures
+- Most contractors don't know about Safety Plus II yet
+- Competitor in Florida has liquid laminate (we avoid heavy FL focus)
+
+OUR LEAD GENERATION STRATEGY:
+We're building a distributed scraping system that identifies businesses needing hurricane glass BEFORE they know they need it. Each sub-app targets a specific niche:
+
+ARCHITECTURE:
+- Meta App: Central dashboard linking all scrapers, tracking leads, generating emails
+- City Scrapers: Focus on hurricane-prone cities (Houston, Charleston, Wilmington, etc.)
+- Industry Scrapers: Target high-value sectors (hotels, casinos, hospitals, schools)
+- Business Type Scrapers: Find decision makers (architects, contractors, developers)
+
+TARGET LEAD PROFILE:
+- Companies with large glass surfaces
+- Located within 50 miles of coast
+- Recent permits for construction/renovation
+- Insurance claims for storm damage
+- Projects over $500k value
+
+EMAIL STRATEGY:
+Each lead gets personalized outreach mentioning:
+- Their specific project/location
+- New code requirements
+- Miami-Dade certification importance
+- Cost of non-compliance
+
+TECHNICAL APPROACH:
+- SerpAPI for broad searches
+- Playwright for permit databases
+- Public records for recent construction
+- LinkedIn for decision makers
+- Google Maps for coastal proximity
+
+SUCCESS METRICS:
+- 2,000 qualified leads by end of weekend
+- 10,000 leads by end of October
+- Emails with 5%+ open rate
+- Focus on quality over quantity
+
+Remember: We're not just finding glass buyers - we're finding companies that WILL NEED certified hurricane glass due to codes, insurance, or storms. We reach them first with education + solution.</pre>
+                    </div>
+                    <button class="button is-primary" onclick="copyPrompt('main-prompt')">
+                        <span class="icon">
+                            <i class="fas fa-copy"></i>
+                        </span>
+                        <span>Copy Prompt</span>
+                    </button>
+                </div>
+
+                <div class="columns is-multiline mt-5">
+                    <div class="column is-6">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.05);">
+                            <h4 class="title is-5">
+                                <i class="fas fa-server" style="color: var(--gs-cyan);"></i> Deploy Claude Instructions
+                            </h4>
+                            <div class="content">
+                                <p><strong>For LOCAL Deploy Claude:</strong></p>
+                                <ol>
+                                    <li>Navigate to <code>Documents/GitHub/GlassStrategies/StormCommand/</code></li>
+                                    <li>Push to GitHub</li>
+                                    <li>SSH into Digital Ocean droplet</li>
+                                    <li>Clone repo to <code>/var/www/stormcommand</code></li>
+                                    <li>Run <code>./deploy-digitalocean.sh</code></li>
+                                    <li>Create <code>.env</code> with API keys</li>
+                                    <li>Update nginx with domain</li>
+                                    <li>Get SSL cert with certbot</li>
+                                </ol>
+
+                                <p class="mt-3"><strong>For DROPLET Claude:</strong></p>
+                                <p>If you're already on the droplet, skip to step 4 above.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.05);">
+                            <h4 class="title is-5">
+                                <i class="fas fa-database" style="color: var(--gs-cyan);"></i> Data Claude Instructions
+                            </h4>
+                            <div class="content">
+                                <p><strong>NO FAKE DATA EVER!</strong></p>
+                                <ul>
+                                    <li>Empty states are good</li>
+                                    <li>Start with zero</li>
+                                    <li>Real data or nothing</li>
+                                    <li>Let users populate data</li>
+                                    <li>Connect to real APIs only</li>
+                                </ul>
+
+                                <p class="mt-3"><strong>Remember:</strong></p>
+                                <p>Dave gets angry when you add fake data. It causes database issues and slows everything down. Always check <code>CLAUDE.md</code> first!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notification is-info is-light mt-5">
+                    <p>
+                        <strong>Pro tip:</strong> Each Claude instance should read the relevant prompt before starting work.
+                        The main prompt gives overall strategy, while specific instructions guide individual tasks.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    function copyPrompt(promptId) {
+        const promptText = document.querySelector('pre').textContent;
+        navigator.clipboard.writeText(promptText).then(() => {
+            const button = event.target.closest('button');
+            const originalHTML = button.innerHTML;
+            button.innerHTML = '<span class="icon"><i class="fas fa-check"></i></span><span>Copied!</span>';
+            button.classList.add('is-success');
+            setTimeout(() => {
+                button.innerHTML = originalHTML;
+                button.classList.remove('is-success');
+            }, 2000);
+        });
+    }
+</script>
+{% endblock %}
