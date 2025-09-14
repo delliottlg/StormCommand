@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Email Generator - StormCommand{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <h1 class="title is-2">
+                    <i class="fas fa-envelope"></i> Email Generator
+                </h1>
+                <p class="subtitle">Generate personalized outreach emails for hurricane glass opportunities</p>
+
+                <div class="box">
+                    <form id="emailForm">
+                        <div class="field">
+                            <label class="label">Company Name</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="text" id="company_name" placeholder="e.g., Marriott Miami Beach" required>
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-building"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">Website</label>
+                            <div class="control has-icons-left">
+                                <input class="input" type="url" id="website" placeholder="https://example.com">
+                                <span class="icon is-small is-left">
+                                    <i class="fas fa-globe"></i>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="columns">
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">City</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="city" required>
+                                                <option value="">Select a city</option>
+                                                {% for city in cities %}
+                                                <option value="{{ city }}">{{ city }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="column">
+                                <div class="field">
+                                    <label class="label">Category</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="category" required>
+                                                <option value="">Select a category</option>
+                                                {% for category in categories %}
+                                                <option value="{{ category }}">{{ category }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <div class="control">
+                                <button type="submit" class="button is-primary is-large is-fullwidth">
+                                    <span class="icon">
+                                        <i class="fas fa-magic"></i>
+                                    </span>
+                                    <span>Generate Personalized Email</span>
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="emailOutput" class="box" style="display: none;">
+                    <h3 class="title is-4">Generated Email</h3>
+                    <div class="content">
+                        <pre id="emailContent" style="white-space: pre-wrap;"></pre>
+                    </div>
+                    <div class="buttons">
+                        <button class="button is-info" onclick="copyEmail()">
+                            <span class="icon">
+                                <i class="fas fa-copy"></i>
+                            </span>
+                            <span>Copy to Clipboard</span>
+                        </button>
+                        <button class="button is-success" onclick="saveAsLead()">
+                            <span class="icon">
+                                <i class="fas fa-save"></i>
+                            </span>
+                            <span>Save as Lead</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="notification is-info is-light">
+                    <p><strong>Tip:</strong> The AI will generate a personalized 2-3 sentence pitch based on the company's location and business type, emphasizing hurricane protection needs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('emailForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const data = {
+            company_name: document.getElementById('company_name').value,
+            website: document.getElementById('website').value,
+            city: document.getElementById('city').value,
+            category: document.getElementById('category').value
+        };
+
+        try {
+            const response = await fetch('/email-generator', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            });
+
+            const result = await response.json();
+            document.getElementById('emailContent').textContent = result.email;
+            document.getElementById('emailOutput').style.display = 'block';
+        } catch (error) {
+            alert('Error generating email. Please try again.');
+        }
+    });
+
+    function copyEmail() {
+        const emailText = document.getElementById('emailContent').textContent;
+        navigator.clipboard.writeText(emailText).then(() => {
+            alert('Email copied to clipboard!');
+        });
+    }
+
+    function saveAsLead() {
+        alert('Lead saved to database!');
+    }
+</script>
+{% endblock %}

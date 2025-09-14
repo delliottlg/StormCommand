@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}StormCommand - Glass Strategies Lead Generation{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gs-teal: #009cc3;
+            --gs-cyan: #00c4d0;
+            --gs-deep-teal: #008c95;
+            --gs-bright-cyan: #00ccd9;
+            --dark-bg: #0a0a0a;
+            --dark-card: #1a1a1a;
+            --dark-border: #2a2a2a;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            background: var(--dark-bg);
+        }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6, .title {
+            font-family: 'Poppins', sans-serif !important;
+            color: white !important;
+        }
+
+        .seattle-header {
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('/static/seattle.jpg') center/cover;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 3px solid var(--gs-teal);
+        }
+
+        .navbar {
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--gs-teal);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-item {
+            color: #e0e0e0 !important;
+            transition: all 0.3s;
+        }
+
+        .navbar-item:hover {
+            color: var(--gs-cyan) !important;
+            background: rgba(0, 156, 195, 0.1) !important;
+        }
+
+        .navbar-brand img {
+            max-height: 50px;
+        }
+
+        body {
+            padding-top: 52px;
+        }
+
+        .section {
+            background: var(--dark-bg);
+        }
+
+        .box {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            box-shadow: 0 4px 6px rgba(0, 156, 195, 0.1);
+        }
+
+        .card {
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+            color: #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        .card:hover {
+            border-color: var(--gs-teal);
+            box-shadow: 0 8px 16px rgba(0, 156, 195, 0.2);
+            transform: translateY(-4px);
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--gs-deep-teal) 0%, var(--gs-teal) 100%);
+            border: none;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        .coming-soon {
+            position: relative;
+            opacity: 0.6;
+            filter: grayscale(100%);
+        }
+
+        .coming-soon .card-content::after {
+            content: "COMING SOON";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: linear-gradient(135deg, #333, #555);
+            color: #999;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.55rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .app-card {
+            transition: all 0.3s;
+            height: 100%;
+            background: var(--dark-card);
+            border: 1px solid var(--dark-border);
+        }
+
+        .app-card .card-content {
+            position: relative;
+        }
+
+        .app-card:hover:not(.coming-soon) {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 156, 195, 0.3);
+            border-color: var(--gs-cyan);
+        }
+
+        .app-card.active {
+            border: 2px solid var(--gs-cyan);
+            background: linear-gradient(135deg, rgba(0, 156, 195, 0.1), rgba(0, 196, 208, 0.05));
+        }
+
+        .app-card.active::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30px;
+            height: 30px;
+            background: var(--gs-cyan);
+            clip-path: polygon(0 0, 100% 0, 100% 100%);
+        }
+
+        .app-card.active::after {
+            content: '✓';
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            color: var(--dark-bg);
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        .hurricane-map {
+            height: 450px;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--gs-teal);
+            box-shadow: 0 8px 32px rgba(0, 156, 195, 0.2);
+        }
+
+        .button.is-primary {
+            background: linear-gradient(135deg, var(--gs-deep-teal), var(--gs-teal));
+            border: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .button.is-primary:hover {
+            background: linear-gradient(135deg, var(--gs-teal), var(--gs-cyan));
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 156, 195, 0.3);
+        }
+
+        .footer {
+            background: linear-gradient(180deg, var(--dark-bg), #000);
+            border-top: 1px solid var(--gs-teal);
+            margin-top: auto;
+            padding: 3rem 1.5rem;
+        }
+
+        .footer strong {
+            color: var(--gs-cyan);
+        }
+
+        .tag.is-success {
+            background: var(--gs-cyan);
+            color: var(--dark-bg);
+            font-weight: 600;
+        }
+
+        .hero.is-primary {
+            background: transparent;
+        }
+
+        .glass-logo {
+            max-width: 300px;
+            filter: brightness(1.2);
+        }
+
+        .storm-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.3;
+            z-index: -1;
+        }
+
+        .content {
+            color: #e0e0e0;
+        }
+
+        .table {
+            background: var(--dark-card);
+            color: #e0e0e0;
+        }
+
+        .table td, .table th {
+            border-color: var(--dark-border);
+            color: #e0e0e0;
+        }
+
+        .table.is-striped tbody tr:not(.is-selected):nth-child(even) {
+            background: rgba(0, 156, 195, 0.05);
+        }
+
+        .input, .textarea, .select select {
+            background: var(--dark-card);
+            border-color: var(--dark-border);
+            color: #e0e0e0;
+        }
+
+        .input:focus, .textarea:focus, .select select:focus {
+            border-color: var(--gs-teal);
+            box-shadow: 0 0 0 0.125em rgba(0, 156, 195, 0.25);
+        }
+
+        .label {
+            color: var(--gs-cyan);
+        }
+
+        .notification.is-info {
+            background: linear-gradient(135deg, rgba(0, 156, 195, 0.2), rgba(0, 196, 208, 0.1));
+            color: var(--gs-cyan);
+            border-left: 4px solid var(--gs-teal);
+        }
+
+        .tabs li.is-active a {
+            color: var(--gs-cyan);
+            border-bottom-color: var(--gs-cyan);
+        }
+
+        .tabs a {
+            color: #999;
+            border-bottom-color: var(--dark-border);
+        }
+
+        .tabs a:hover {
+            color: var(--gs-teal);
+            border-bottom-color: var(--gs-teal);
+        }
+
+        .progress.is-primary::-webkit-progress-value {
+            background: linear-gradient(90deg, var(--gs-deep-teal), var(--gs-cyan));
+        }
+
+        .subtitle {
+            color: #b0b0b0 !important;
+        }
+
+        a {
+            color: var(--gs-cyan);
+        }
+
+        a:hover {
+            color: var(--gs-bright-cyan);
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar" role="navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="/">
+                <img src="/static/glass-strategies-with-line-and-logo-dark-mode.svg" alt="Glass Strategies" style="max-height: 40px;">
+            </a>
+            <a role="button" class="navbar-burger" data-target="navMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </a>
+        </div>
+        <div id="navMenu" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/">
+                    <span class="icon"><i class="fas fa-dashboard"></i></span>
+                    <span>Dashboard</span>
+                </a>
+                <a class="navbar-item" href="/email-generator">
+                    <span class="icon"><i class="fas fa-envelope"></i></span>
+                    <span>Email Generator</span>
+                </a>
+                <a class="navbar-item" href="/reports">
+                    <span class="icon"><i class="fas fa-chart-bar"></i></span>
+                    <span>Reports</span>
+                </a>
+                <a class="navbar-item" href="/about">
+                    <span class="icon"><i class="fas fa-info-circle"></i></span>
+                    <span>About</span>
+                </a>
+                <a class="navbar-item" href="/collab">
+                    <span class="icon"><i class="fas fa-users"></i></span>
+                    <span>Collab</span>
+                </a>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons">
+                        <a class="button is-primary" href="/export-csv">
+                            <span class="icon">
+                                <i class="fas fa-download"></i>
+                            </span>
+                            <span>Export Data</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <img src="/static/miami-dade-certified-systens-300x300.png" alt="Miami-Dade Certified" style="width: 100px; margin-bottom: 1rem;">
+            <p>
+                <strong>StormCommand</strong> by Glass Strategies
+            </p>
+            <p style="color: #999;">
+                Hurricane-resistant glass solutions for coastal properties<br>
+                Miami-Dade County Approved • ANSI Z97.1 Certified
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
+                $navbarBurgers.forEach( el => {
+                    el.addEventListener('click', () => {
+                        const target = el.dataset.target;
+                        const $target = document.getElementById(target);
+                        el.classList.toggle('is-active');
+                        $target.classList.toggle('is-active');
+                    });
+                });
+            }
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

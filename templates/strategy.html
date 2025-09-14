@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Current Strategy - StormCommand{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-10">
+                <h1 class="title is-2">
+                    <i class="fas fa-chess" style="color: var(--gs-cyan);"></i> Current Ads / Landing Page Strategy
+                </h1>
+
+                <div class="box">
+                    <div class="content">
+                        <p class="is-size-5" style="line-height: 1.8;">
+                            This will eventually be our mini CRM / campaign tracker - think Monday.com meets HubSpot but specifically for Glass Strategies lead generation.
+                            We'll track which cities we're targeting, what business categories are converting, which ad copy is working,
+                            and coordinate our outreach campaigns across all 100 apps. For now it's just Dave running SQL queries and
+                            adjusting SerpAPI parameters, but soon this will show real-time campaign performance, A/B test results,
+                            and let us pivot strategy based on hurricane patterns and construction permit data.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="columns is-multiline mt-5">
+                    <div class="column is-3">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                            <h3 class="title is-5">Current Focus</h3>
+                            <p>Houston hotels post-Hurricane Beryl</p>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                            <h3 class="title is-5">Next Target</h3>
+                            <p>North Carolina architects (building boom)</p>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                            <h3 class="title is-5">Testing</h3>
+                            <p>Casino properties in Gulf Coast</p>
+                        </div>
+                    </div>
+                    <div class="column is-3">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid #ff9800;">
+                            <h3 class="title is-5">Pacific Priority</h3>
+                            <p>Hawaii luxury resorts (typhoon season prep)</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

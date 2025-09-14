@@ -1,0 +1,271 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="seattle-header">
+    <img src="/static/Huricane-from-space.jpg" class="storm-image" alt="Hurricane from space">
+    <div class="container has-text-centered">
+        <img src="/static/glass-strategies-with-line-and-logo-dark-mode.svg" alt="Glass Strategies" class="glass-logo mb-4">
+        <h1 class="title is-1 has-text-white" style="font-weight: 900; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+            STORMCOMMAND
+        </h1>
+        <h2 class="subtitle is-3 has-text-white" style="text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+            Lead Generation System for Hurricane Protection Glass
+        </h2>
+        <div class="buttons is-centered mt-5">
+            <a href="#dashboard" class="button is-primary is-large">
+                <span class="icon">
+                    <i class="fas fa-dashboard"></i>
+                </span>
+                <span>View Dashboard</span>
+            </a>
+            <a href="/email-generator" class="button is-outlined is-light is-large">
+                <span class="icon">
+                    <i class="fas fa-rocket"></i>
+                </span>
+                <span>Generate Leads</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="dashboard">
+    <div class="container">
+        <div class="columns is-multiline">
+            <div class="column is-3">
+                <div class="card stat-card">
+                    <div class="card-content">
+                        <p class="title is-2 has-text-white">{{ stats.total_leads }}</p>
+                        <p class="subtitle has-text-white">Total Leads</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-3">
+                <div class="card stat-card">
+                    <div class="card-content">
+                        <p class="title is-2 has-text-white">{{ stats.cities_active }}</p>
+                        <p class="subtitle has-text-white">Cities Active</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-3">
+                <div class="card stat-card">
+                    <div class="card-content">
+                        <p class="title is-2 has-text-white">{{ stats.emails_sent }}</p>
+                        <p class="subtitle has-text-white">Emails Sent</p>
+                    </div>
+                </div>
+            </div>
+            <div class="column is-3">
+                <div class="card stat-card">
+                    <div class="card-content">
+                        <p class="title is-2 has-text-white">{{ stats.success_rate }}%</p>
+                        <p class="subtitle has-text-white">Success Rate</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="padding-top: 0;">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-8">
+                <h2 class="title is-3 mb-4">
+                    <i class="fas fa-map-marked-alt" style="color: var(--gs-cyan);"></i> Hurricane Risk Zones
+                </h2>
+                <div class="box" style="padding: 0; overflow: hidden;">
+                    <div class="hurricane-map">
+                        {{ map_html|safe }}
+                    </div>
+                </div>
+            </div>
+            <div class="column is-4">
+                <h2 class="title is-3 mb-4">
+                    <i class="fas fa-shield-alt" style="color: var(--gs-cyan);"></i> Safety Plus II
+                </h2>
+                <div class="box has-text-centered" style="background: linear-gradient(135deg, rgba(0, 156, 195, 0.1), transparent);">
+                    <img src="/static/Safety-Plus-II-copy.png" alt="Safety Plus II" style="max-width: 100%; height: auto;">
+                    <p class="mt-3" style="color: var(--gs-cyan);">
+                        Miami-Dade County Approved<br>
+                        ANSI Z97.1 Certified<br>
+                        Hurricane Impact Protection
+                    </p>
+                    <a href="/strategy" class="button is-primary is-fullwidth mt-4">
+                        Current Ads / Landing Page Strategy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <h2 class="title is-3">
+            <i class="fas fa-th" style="color: var(--gs-cyan);"></i> Lead Generation Apps
+        </h2>
+        <div class="tabs is-boxed is-large">
+            <ul>
+                <li class="is-active" data-tab="cities">
+                    <a>
+                        <span class="icon"><i class="fas fa-city"></i></span>
+                        <span>Cities (50)</span>
+                    </a>
+                </li>
+                <li data-tab="categories">
+                    <a>
+                        <span class="icon"><i class="fas fa-building"></i></span>
+                        <span>Categories (50)</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div id="cities-grid" class="tab-content">
+            <div class="columns is-multiline">
+                {% for app in app_grid %}
+                {% if app.type == 'city' %}
+                <div class="column is-2">
+                    <div class="card app-card {% if app.active %}active{% else %}coming-soon{% endif %}">
+                        <div class="card-content">
+                            <p class="title is-6">
+                                {% if app.active %}
+                                <a href="{{ app.url }}" target="_blank" style="color: var(--gs-cyan);">{{ app.name }}</a>
+                                {% else %}
+                                {{ app.name }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="categories-grid" class="tab-content" style="display: none;">
+            <div class="columns is-multiline">
+                {% for app in app_grid %}
+                {% if app.type == 'category' %}
+                <div class="column is-2">
+                    <div class="card app-card {% if app.active %}active{% else %}coming-soon{% endif %}">
+                        <div class="card-content">
+                            <p class="title is-6">
+                                {% if app.active %}
+                                <a href="{{ app.url }}" target="_blank" style="color: var(--gs-cyan);">{{ app.name }}</a>
+                                {% else %}
+                                {{ app.name }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background: linear-gradient(180deg, var(--dark-bg), #000);">
+    <div class="container">
+        <div class="columns">
+            <div class="column is-6">
+                <h2 class="title is-3">
+                    <i class="fas fa-satellite" style="color: var(--gs-cyan);"></i> Hurricane Tracking
+                </h2>
+                <div class="box" style="background: url('/static/dark-storm-clouds.jpg') center/cover; min-height: 300px; position: relative;">
+                    <div style="background: rgba(0,0,0,0.7); padding: 2rem; position: absolute; bottom: 0; left: 0; right: 0;">
+                        <h3 class="title is-5">NOAA Hurricane Updates</h3>
+                        {% if news_items %}
+                        <div class="content">
+                            {% for item in news_items[:3] %}
+                            <p style="margin-bottom: 0.5rem;">
+                                <strong style="color: var(--gs-cyan);">{{ item.title }}</strong><br>
+                                <small style="color: #999;">{{ item.published }}</small>
+                            </p>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <p style="color: #999;">No current hurricane activity reported.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="column is-6">
+                <h2 class="title is-3">
+                    <i class="fas fa-check-circle" style="color: var(--gs-cyan);"></i> System Status
+                </h2>
+                <div class="box">
+                    <div class="content">
+                        <div class="columns is-multiline">
+                            <div class="column is-6">
+                                <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                                    <p class="has-text-success">
+                                        <i class="fas fa-database"></i> Database Connected
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="column is-6">
+                                <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                                    <p class="has-text-info">
+                                        <i class="fas fa-rocket"></i> 3 Apps Active
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="column is-6">
+                                <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                                    <p class="has-text-warning">
+                                        <i class="fas fa-clock"></i> 97 Apps Pending
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="column is-6">
+                                <div class="box" style="background: rgba(0, 156, 195, 0.1); border-left: 4px solid var(--gs-cyan);">
+                                    <p class="has-text-primary">
+                                        <i class="fas fa-shield-alt"></i> Miami-Dade Certified
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .button.is-outlined.is-light {
+        background: transparent;
+        border-color: white;
+        color: white;
+    }
+
+    .button.is-outlined.is-light:hover {
+        background: rgba(255,255,255,0.1);
+        border-color: var(--gs-cyan);
+        color: var(--gs-cyan);
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
+
+<script>
+    document.querySelectorAll('.tabs li').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('.tabs li').forEach(t => t.classList.remove('is-active'));
+            tab.classList.add('is-active');
+
+            const tabName = tab.dataset.tab;
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.style.display = 'none';
+            });
+            document.getElementById(tabName + '-grid').style.display = 'block';
+        });
+    });
+</script>
+{% endblock %}

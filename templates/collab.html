@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Collaboration Hub - StormCommand{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-10">
+                <h1 class="title is-2">
+                    <i class="fas fa-users" style="color: var(--gs-cyan);"></i> Collaboration Hub
+                </h1>
+                <p class="subtitle">Share ideas, report issues, suggest target clients</p>
+
+                <div class="columns mt-5">
+                    <div class="column is-6">
+                        <div class="box">
+                            <h3 class="title is-4">
+                                <i class="fas fa-lightbulb" style="color: var(--gs-cyan);"></i> Submit Ideas
+                            </h3>
+                            <form id="ideaForm">
+                                <div class="field">
+                                    <label class="label">Your Name</label>
+                                    <div class="control">
+                                        <input class="input" type="text" id="name" placeholder="Lance" required>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Idea Type</label>
+                                    <div class="control">
+                                        <div class="select is-fullwidth">
+                                            <select id="ideaType" required>
+                                                <option value="">Select type...</option>
+                                                <option value="client">New Client/Industry Target</option>
+                                                <option value="feature">App Feature Request</option>
+                                                <option value="strategy">Outreach Strategy</option>
+                                                <option value="bug">Bug Report</option>
+                                                <option value="other">Other</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Description</label>
+                                    <div class="control">
+                                        <textarea class="textarea" id="description" rows="6" placeholder="Describe your idea, client suggestion, or issue..." required></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">Priority</label>
+                                    <div class="control">
+                                        <label class="radio">
+                                            <input type="radio" name="priority" value="low">
+                                            <span style="color: #999;">Low - Nice to have</span>
+                                        </label><br>
+                                        <label class="radio">
+                                            <input type="radio" name="priority" value="medium" checked>
+                                            <span style="color: var(--gs-cyan);">Medium - Should consider</span>
+                                        </label><br>
+                                        <label class="radio">
+                                            <input type="radio" name="priority" value="high">
+                                            <span style="color: #ff9800;">High - Act soon</span>
+                                        </label><br>
+                                        <label class="radio">
+                                            <input type="radio" name="priority" value="urgent">
+                                            <span style="color: #f44336;">Urgent - Drop everything</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <div class="control">
+                                        <button type="submit" class="button is-primary is-fullwidth">
+                                            <span class="icon">
+                                                <i class="fas fa-paper-plane"></i>
+                                            </span>
+                                            <span>Submit</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="column is-6">
+                        <div class="box" style="background: rgba(0, 156, 195, 0.05);">
+                            <h3 class="title is-4">
+                                <i class="fas fa-bullseye" style="color: var(--gs-cyan);"></i> Quick Ideas
+                            </h3>
+                            <div class="content">
+                                <h5>Potential Client Categories to Target:</h5>
+                                <div class="tags">
+                                    <span class="tag is-info">Beachfront Condos</span>
+                                    <span class="tag is-info">Coastal Universities</span>
+                                    <span class="tag is-info">Marina Offices</span>
+                                    <span class="tag is-info">Resort Chains</span>
+                                    <span class="tag is-info">Historic Hotels</span>
+                                    <span class="tag is-info">Government Buildings</span>
+                                    <span class="tag is-info">Hospital Systems</span>
+                                </div>
+
+                                <h5 class="mt-4">High-Value Cities to Consider:</h5>
+                                <div class="tags">
+                                    <span class="tag is-warning">Miami Beach</span>
+                                    <span class="tag is-warning">Galveston</span>
+                                    <span class="tag is-warning">Virginia Beach</span>
+                                    <span class="tag is-warning">Hilton Head</span>
+                                    <span class="tag is-warning">Key West</span>
+                                    <span class="tag is-warning">Corpus Christi</span>
+                                </div>
+
+                                <h5 class="mt-4">Recent Hurricane Zones (Hot Leads):</h5>
+                                <ul>
+                                    <li>Fort Myers (Hurricane Ian - 2022)</li>
+                                    <li>Lake Charles (Hurricane Laura - 2020)</li>
+                                    <li>Panama City (Hurricane Michael - 2018)</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="box mt-4">
+                            <h3 class="title is-4">
+                                <i class="fas fa-clipboard-list" style="color: var(--gs-cyan);"></i> Submission Log
+                            </h3>
+                            <div id="submissionLog" class="content">
+                                <p style="color: #999;">Submissions will appear here...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="notification is-info is-light mt-5">
+                    <p>
+                        <strong>Pro tip:</strong> The best client ideas combine high property value + hurricane exposure + recent storm damage or new building codes.
+                        Think luxury coastal properties that MUST upgrade their glass for insurance compliance.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.getElementById('ideaForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+            name: document.getElementById('name').value,
+            type: document.getElementById('ideaType').value,
+            description: document.getElementById('description').value,
+            priority: document.querySelector('input[name="priority"]:checked').value,
+            timestamp: new Date().toLocaleString()
+        };
+
+        // For now, just show it in the log
+        const logDiv = document.getElementById('submissionLog');
+        const logEntry = document.createElement('div');
+        logEntry.className = 'box mb-3';
+        logEntry.style.borderLeft = formData.priority === 'urgent' ? '4px solid #f44336' :
+                                    formData.priority === 'high' ? '4px solid #ff9800' :
+                                    '4px solid var(--gs-cyan)';
+        logEntry.innerHTML = `
+            <p><strong>${formData.name}</strong> - ${formData.timestamp}</p>
+            <p><span class="tag">${formData.type}</span> <span class="tag is-${formData.priority === 'urgent' ? 'danger' : formData.priority === 'high' ? 'warning' : 'info'}">${formData.priority}</span></p>
+            <p>${formData.description}</p>
+        `;
+
+        if (logDiv.children[0].textContent.includes('Submissions will appear here')) {
+            logDiv.innerHTML = '';
+        }
+        logDiv.insertBefore(logEntry, logDiv.firstChild);
+
+        // Reset form
+        document.getElementById('ideaForm').reset();
+        document.querySelector('input[name="priority"][value="medium"]').checked = true;
+
+        // Show success message
+        const button = e.target.querySelector('button[type="submit"]');
+        const originalText = button.innerHTML;
+        button.innerHTML = '<span class="icon"><i class="fas fa-check"></i></span><span>Submitted!</span>';
+        button.classList.add('is-success');
+        setTimeout(() => {
+            button.innerHTML = originalText;
+            button.classList.remove('is-success');
+        }, 2000);
+    });
+</script>
+{% endblock %}
