@@ -64,6 +64,16 @@ def init_db():
         times_contacted INTEGER DEFAULT 0,
         opportunity_score INTEGER
     )''')
+
+    c.execute('''CREATE TABLE IF NOT EXISTS collab_submissions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        name TEXT,
+        idea_type TEXT,
+        description TEXT,
+        priority TEXT,
+        timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+    )''')
+
     conn.commit()
     conn.close()
 
@@ -192,9 +202,32 @@ def about():
 def strategy():
     return render_template('strategy.html')
 
-@app.route('/collab')
+@app.route('/collab', methods=['GET', 'POST'])
 def collab():
-    return render_template('collab.html')
+    if request.method == 'POST':
+        data = request.json
+
+        conn = sqlite3.connect(DATABASE)
+        c = conn.cursor()
+        c.execute('''INSERT INTO collab_submissions (name, idea_type, description, priority)
+                     VALUES (?, ?, ?, ?)''',
+                  (data['name'], data['type'], data['description'], data['priority']))
+        conn.commit()
+        submission_id = c.lastrowid
+        conn.close()
+
+        return jsonify({'success': True, 'id': submission_id})
+
+    # GET request - load previous submissions
+    conn = sqlite3.connect(DATABASE)
+    c = conn.cursor()
+    submissions = c.execute('''SELECT name, idea_type, description, priority, timestamp
+                               FROM collab_submissions
+                               ORDER BY timestamp DESC
+                               LIMIT 20''').fetchall()
+    conn.close()
+
+    return render_template('collab.html', submissions=submissions)
 
 @app.route('/prompts')
 def prompts():
