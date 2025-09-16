@@ -96,13 +96,19 @@
                 <li class="is-active" data-tab="cities">
                     <a>
                         <span class="icon"><i class="fas fa-city"></i></span>
-                        <span>Cities (50)</span>
+                        <span>Cities (51)</span>
                     </a>
                 </li>
                 <li data-tab="categories">
                     <a>
                         <span class="icon"><i class="fas fa-building"></i></span>
                         <span>Categories (50)</span>
+                    </a>
+                </li>
+                <li data-tab="llms">
+                    <a>
+                        <span class="icon"><i class="fas fa-robot"></i></span>
+                        <span>By LLMs (5)</span>
                     </a>
                 </li>
             </ul>
@@ -134,6 +140,28 @@
             <div class="columns is-multiline">
                 {% for app in app_grid %}
                 {% if app.type == 'category' %}
+                <div class="column is-2">
+                    <div class="card app-card {% if app.active %}active{% else %}coming-soon{% endif %}">
+                        <div class="card-content">
+                            <p class="title is-6">
+                                {% if app.active %}
+                                <a href="{{ app.url }}" target="_blank" style="color: var(--gs-cyan);">{{ app.name }}</a>
+                                {% else %}
+                                {{ app.name }}
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <div id="llms-grid" class="tab-content" style="display: none;">
+            <div class="columns is-multiline">
+                {% for app in app_grid %}
+                {% if app.type == 'llm' %}
                 <div class="column is-2">
                     <div class="card app-card {% if app.active %}active{% else %}coming-soon{% endif %}">
                         <div class="card-content">

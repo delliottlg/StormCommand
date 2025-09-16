@@ -46,8 +46,18 @@ CATEGORIES = [
 ACTIVE_APPS = {
     'Houston': 'https://houston-glass.stormcommand.com',
     'NC Architects': 'https://nc-architects-glass.stormcommand.com',
-    'Hotels': 'https://hotels-glass.stormcommand.com',
-    'Honolulu': 'http://127.0.0.1:5007/'
+    'Hotels': 'http://127.0.0.1:5004/',
+    'Honolulu': 'http://127.0.0.1:5007/',
+    'Miami': 'http://127.0.0.1:8501/'  # This is actually the Codex Streamlit app for Houston and Miami
+}
+
+# LLM-generated apps
+LLM_APPS = {
+    'Codex': 'http://127.0.0.1:8501/',  # OpenAI Codex
+    'Claude': '#',  # Anthropic Claude
+    'Gemini': '#',  # Google Gemini
+    'Grok': '#',  # xAI Grok
+    'GPT-4': '#'  # OpenAI GPT-4
 }
 
 def init_db():
@@ -132,7 +142,7 @@ def index():
 
     app_grid = []
     for city in CITIES:
-        if city == 'Houston' or city == 'Honolulu':
+        if city in ['Houston', 'Honolulu', 'Miami']:
             app_grid.append({'name': city, 'type': 'city', 'active': True, 'url': ACTIVE_APPS.get(city, '#')})
         else:
             app_grid.append({'name': city, 'type': 'city', 'active': False, 'url': '#'})
@@ -147,6 +157,11 @@ def index():
             app_grid.append({'name': category, 'type': 'category', 'active': active, 'url': url})
         else:
             app_grid.append({'name': category, 'type': 'category', 'active': False, 'url': '#'})
+
+    # Add LLM apps
+    for llm_name, llm_url in LLM_APPS.items():
+        active = (llm_name == 'Codex')  # Only Codex is active for now
+        app_grid.append({'name': llm_name, 'type': 'llm', 'active': active, 'url': llm_url})
 
     try:
         feed = feedparser.parse('https://www.nhc.noaa.gov/xml/ATCF_ATL.xml')
