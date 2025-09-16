@@ -26,7 +26,8 @@ CITIES = [
     'Brownsville', 'McAllen', 'Laredo', 'Victoria', 'Bay City',
     'Freeport', 'Texas City', 'Pascagoula', 'Gulfport', 'Orange Beach',
     'Gulf Shores', 'Dauphin Island', 'St. Petersburg', 'Clearwater', 'Bradenton',
-    'Venice', 'Punta Gorda', 'Cape Coral', 'Marco Island', 'Everglades City'
+    'Venice', 'Punta Gorda', 'Cape Coral', 'Marco Island', 'Everglades City',
+    'Honolulu'
 ]
 
 CATEGORIES = [
@@ -45,7 +46,8 @@ CATEGORIES = [
 ACTIVE_APPS = {
     'Houston': 'https://houston-glass.stormcommand.com',
     'NC Architects': 'https://nc-architects-glass.stormcommand.com',
-    'Hotels': 'https://hotels-glass.stormcommand.com'
+    'Hotels': 'https://hotels-glass.stormcommand.com',
+    'Honolulu': 'http://127.0.0.1:5007/'
 }
 
 def init_db():
@@ -130,7 +132,7 @@ def index():
 
     app_grid = []
     for city in CITIES:
-        if city == 'Houston':
+        if city == 'Houston' or city == 'Honolulu':
             app_grid.append({'name': city, 'type': 'city', 'active': True, 'url': ACTIVE_APPS.get(city, '#')})
         else:
             app_grid.append({'name': city, 'type': 'city', 'active': False, 'url': '#'})
