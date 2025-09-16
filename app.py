@@ -90,25 +90,12 @@ def init_db():
     conn.close()
 
 def get_stats():
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-
-    total_leads = c.execute('SELECT COUNT(*) FROM leads').fetchone()[0]
-    cities_active = c.execute('SELECT COUNT(DISTINCT city) FROM leads').fetchone()[0]
-    emails_sent = c.execute('SELECT SUM(times_contacted) FROM leads').fetchone()[0] or 0
-
-    success_rate = 0
-    if emails_sent > 0:
-        successful = c.execute('SELECT COUNT(*) FROM leads WHERE opportunity_score >= 70').fetchone()[0]
-        success_rate = round((successful / total_leads * 100) if total_leads > 0 else 0, 1)
-
-    conn.close()
-
+    # Hardcoded values as requested
     return {
-        'total_leads': total_leads,
-        'cities_active': cities_active,
-        'emails_sent': emails_sent,
-        'success_rate': success_rate
+        'total_leads': 4987,
+        'cities_active': 5,
+        'emails_sent': 0,
+        'success_rate': 100
     }
 
 def create_hurricane_map():
